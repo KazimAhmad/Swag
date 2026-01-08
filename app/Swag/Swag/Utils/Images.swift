@@ -9,4 +9,5 @@ import Foundation
 
 struct Images {
     static let lamp = "lamp"
+    static let logo = "logo"
 }

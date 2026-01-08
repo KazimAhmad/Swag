@@ -17,11 +17,35 @@ struct LoginView<ViewModel: LoginViewModelProtocol>: View {
     var body: some View {
         ZStack {
             LampAndLightView()
-            VStack {
-                
-            }
+            loginForm()
         }
         .ignoresSafeArea()
+    }
+    
+    func loginForm() -> some View {
+        VStack {
+            Image(Images.logo)
+                .resizable()
+                .frame(width: 100,
+                       height: 100)
+                .padding(.vertical)
+            
+            TextField("Email or username",
+                      text: $viewModel.email)
+            .textFieldStyle(RoundedShadowTextFieldStyle())
+            TextField("Password",
+                      text: $viewModel.email)
+            .textFieldStyle(RoundedShadowTextFieldStyle())
+            
+            Button("Continue") {
+                print("Tapped")
+            }
+            .buttonStyle(
+                RoundedBorderButtonStyle()
+            )
+            .padding(.vertical)
+        }
+        .padding()
     }
 }
 
