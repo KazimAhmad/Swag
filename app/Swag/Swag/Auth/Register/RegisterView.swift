@@ -1,13 +1,13 @@
 //
-//  Login.swift
+//  RegisterView.swift
 //  Swag
 //
-//  Created by Kazim Ahmad on 07/01/2026.
+//  Created by Kazim Ahmad on 08/01/2026.
 //
 
 import SwiftUI
 
-struct LoginView<ViewModel: LoginViewModelProtocol>: View {
+struct RegisterView<ViewModel: RegisterViewModelProtocol>: View {
     @StateObject private var viewModel: ViewModel
     
     init(viewModel: ViewModel) {
@@ -30,14 +30,17 @@ struct LoginView<ViewModel: LoginViewModelProtocol>: View {
                        height: 100)
                 .padding(.vertical)
             
-            TextField("Email or username",
-                      text: $viewModel.emailOrUsername)
+            TextField("Username",
+                      text: $viewModel.username)
+            .textFieldStyle(RoundedShadowTextFieldStyle())
+            TextField("Email",
+                      text: $viewModel.email)
             .textFieldStyle(RoundedShadowTextFieldStyle())
             TextField("Password",
                       text: $viewModel.password)
             .textFieldStyle(RoundedShadowTextFieldStyle())
             
-            Button("Login") {
+            Button("Register") {
                 print("Tapped")
             }
             .buttonStyle(
@@ -50,5 +53,5 @@ struct LoginView<ViewModel: LoginViewModelProtocol>: View {
 }
 
 #Preview {
-    LoginView(viewModel: LoginViewModel())
+    RegisterView(viewModel: RegisterViewModel())
 }
