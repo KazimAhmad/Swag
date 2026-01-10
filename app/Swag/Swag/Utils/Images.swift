@@ -10,4 +10,6 @@ import Foundation
 struct Images {
     static let lamp = "lamp"
     static let logo = "logo"
+    static let show = "show"
+    static let hide = "hide"
 }

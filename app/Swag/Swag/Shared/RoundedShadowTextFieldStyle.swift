@@ -19,5 +19,6 @@ struct RoundedShadowTextFieldStyle: TextFieldStyle {
                     .stroke(Color.lampLight.opacity(0.3), lineWidth: 1)
             )
             .shadow(color: .lampLight.opacity(0.5), radius: 8)
+            .autocorrectionDisabled()
     }
 }

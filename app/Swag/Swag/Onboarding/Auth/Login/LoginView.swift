@@ -33,9 +33,30 @@ struct LoginView<ViewModel: LoginViewModelProtocol>: View {
             TextField("Email or username",
                       text: $viewModel.emailOrUsername)
             .textFieldStyle(RoundedShadowTextFieldStyle())
-            TextField("Password",
-                      text: $viewModel.password)
-            .textFieldStyle(RoundedShadowTextFieldStyle())
+            ZStack {
+                if viewModel.isSecured {
+                    SecureField("Password",
+                                text: $viewModel.password)
+                    .textFieldStyle(RoundedShadowTextFieldStyle())
+                } else {
+                    TextField("Password",
+                              text: $viewModel.password)
+                    .textFieldStyle(RoundedShadowTextFieldStyle())
+                }
+                HStack {
+                    Spacer()
+                    Button {
+                        viewModel.isSecured.toggle()
+                        viewModel.showAnimation()
+                    } label: {
+                        Image(systemName: viewModel.eyeImage)
+                            .resizable()
+                            .frame(width: 24, height: 22)
+                            .foregroundStyle(.darkPurple)
+                            .padding(.trailing)
+                    }
+                }
+            }
             
             Button("Login") {
                 print("Tapped")
@@ -50,5 +71,5 @@ struct LoginView<ViewModel: LoginViewModelProtocol>: View {
 }
 
 #Preview {
-    LoginView(viewModel: LoginViewModel())
+    LoginView(viewModel: LoginViewModel(coordinator: OnboardingCoordiantor()))
 }

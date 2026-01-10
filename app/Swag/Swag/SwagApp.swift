@@ -13,8 +13,24 @@ struct SwagApp: App {
 
     var body: some Scene {
         WindowGroup {
-            Text("Swag")
+            MainView()
                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
+        }
+    }
+}
+
+struct MainView: View {
+    @StateObject var coordinator = OnboardingCoordiantor()
+
+    var body: some View {
+        NavigationStack(path: $coordinator.path) {
+            OnboardingView(viewModel: OnboardingViewModel(coordinator: coordinator))
+                .navigationDestination(for: OnboardingRoutes.self) { destination in
+                    coordinator.destinationView(for: destination)
+                }
+                .fullScreenCover(item: $coordinator.activeModal) { modal in
+                    coordinator.modalView(for: modal)
+                }
         }
     }
 }
