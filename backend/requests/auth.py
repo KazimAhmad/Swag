@@ -19,7 +19,7 @@ def get_users():
     )
 
 #create a user
-@app.route("users/sign-up", methods = ["POST"])
+@app.route("/users/sign-up", methods = ["POST"])
 def create_user():
     new_user_name = request.json.get("userName")
     new_email = request.json.get("email")
