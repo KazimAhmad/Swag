@@ -8,7 +8,7 @@ class User(db.Model):
     image_file = db.Column(db.String(20), nullable = False, default = 'default.jpg')
 
     def __repr__(self):
-        return f"User('{self.user_name}', '{self.email}', ''{self.image_file})"
+        return f"User('{self.user_name}', '{self.email}', '{self.image_file}')"
     
     def to_json(self):
         return {

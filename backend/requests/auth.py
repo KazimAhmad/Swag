@@ -8,7 +8,7 @@ from models.user import User
 
 #this is a decorater which goes above the function that we are gonna write
 @app.route("/users", methods = ["GET"])
-def get_users():
+def users():
     users = User.query.all()
     json_users = list(map(lambda user: user.to_json(), users))
     
