@@ -55,6 +55,6 @@ def videos_create():
         db.session.commit()
     
     except Exception as e:
-        return jsonify({"message": str(e)}), 400
+        return jsonify({"error": str(e)}), 400
     
     return jsonify({"message": "video created"}), 201
