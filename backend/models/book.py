@@ -1,4 +1,10 @@
 from config.config import db
+from enum import StrEnum, auto
+
+class BookCategory(StrEnum):
+    action = "action"
+    comedy = "comedy"
+    drama = "drama"
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key = True, nullable = False)
