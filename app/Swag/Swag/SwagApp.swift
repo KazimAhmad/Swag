@@ -20,17 +20,22 @@ struct SwagApp: App {
 }
 
 struct MainView: View {
+    @ObservedObject var session: Session = Session.current
     @StateObject var coordinator = OnboardingCoordiantor()
 
     var body: some View {
-        NavigationStack(path: $coordinator.path) {
-            OnboardingView(viewModel: OnboardingViewModel(coordinator: coordinator))
-                .navigationDestination(for: OnboardingRoutes.self) { destination in
-                    coordinator.destinationView(for: destination)
-                }
-                .fullScreenCover(item: $coordinator.activeModal) { modal in
-                    coordinator.modalView(for: modal)
-                }
+        if session.guest {
+            AppTabView()
+        } else {
+            NavigationStack(path: $coordinator.path) {
+                OnboardingView(viewModel: OnboardingViewModel(coordinator: coordinator))
+                    .navigationDestination(for: OnboardingRoutes.self) { destination in
+                        coordinator.destinationView(for: destination)
+                    }
+                    .fullScreenCover(item: $coordinator.activeModal) { modal in
+                        coordinator.modalView(for: modal)
+                    }
+            }
         }
     }
 }

@@ -67,7 +67,7 @@ struct OnboardingView: View {
             )
             
             Button {
-
+                viewModel.enterAsGuest()
             } label: {
                 Text("Enter as guest")
                     .frame(height: 28)

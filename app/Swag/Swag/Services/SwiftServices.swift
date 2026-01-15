@@ -34,7 +34,7 @@ class SwiftServices: SwiftServicesProtocol {
      we can use navigtion path to go to the list view but i wanted to include an example
      to change the root view of the app, i am using the navigation stack for the list view
      */
-    @Published var isAuthSkipped: Bool? = nil
+    @Published internal var isGuest: Bool? = nil
 
     init() {
 

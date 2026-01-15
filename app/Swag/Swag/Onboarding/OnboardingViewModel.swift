@@ -41,22 +41,8 @@ class OnboardingViewModel: ObservableObject {
     func goToRegister() {
         coordinator?.navigate(to: .register)
     }
+    
+    func enterAsGuest() {
+        Auth.enterAsGuest()
+    }
 }
-
-/*
-
- func infoType(for type: OnboardingInfoType) -> (String, String) {
-     switch type {
-     case .videos:
-         return ("V\nI\nD\n\I\nO\nS", Images.video)
-     case .movies:
-         return ("M\nO\nV\n\I\nE\nS", Images.movie)
-     case .facts:
-         return ("F\nA\nC\n\T\nS", Images.facts)
-     case .more:
-         return ("M\nO\n\R\nR", Images.more)
-     }
- }
-
- 
-*/
