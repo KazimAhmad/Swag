@@ -8,5 +8,11 @@
 import Foundation
 
 enum HomeModal: Identifiable {
-    
+    case about
+    var id: String {
+        switch self {
+        case .about:
+            return "about"
+        }
+    }
 }
