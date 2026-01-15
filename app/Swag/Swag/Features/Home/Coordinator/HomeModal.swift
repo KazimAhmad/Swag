@@ -7,6 +7,6 @@
 
 import Foundation
 
-class HomeModal: Identifiable {
+enum HomeModal: Identifiable {
     
 }

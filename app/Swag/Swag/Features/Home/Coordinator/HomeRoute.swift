@@ -7,6 +7,6 @@
 
 import Foundation
 
-class HomeRoute: Hashable {
+enum HomeRoute: Hashable {
     
 }
