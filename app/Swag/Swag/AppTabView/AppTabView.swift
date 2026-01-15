@@ -47,7 +47,8 @@ enum AppTab: String, Hashable, CaseIterable {
 
 struct AppTabView: View {
     @State private var selectedTab: AppTab = .home
-    
+    @StateObject var homeCoordinator = HomeCoordinator()
+
     var body: some View {
         TabView(selection: $selectedTab) {
             ForEach(AppTab.allCases, id: \.rawValue) { tab in
@@ -65,8 +66,15 @@ struct AppTabView: View {
     func tabView(for tab: AppTab) -> some View {
         switch tab {
         case .home:
-            NavigationStack {
-                Text(tab.title)
+            NavigationStack(path: $homeCoordinator.path) {
+                let viewModel = HomeViewModel(coordinator: homeCoordinator)
+                HomeView(viewModel: viewModel)
+                    .navigationDestination(for: HomeRoute.self) { route in
+                        homeCoordinator.destinationView(for: route)
+                    }
+                    .sheet(item: $homeCoordinator.activeModal) { modal in
+                        homeCoordinator.modalView(for: modal)
+                    }
             }
             .tag(AppTab.home)
         case .videos:

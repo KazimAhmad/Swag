@@ -40,8 +40,16 @@
 				Features/Home/ViewModel/HomeViewModelProtocol.swift,
 				Models/Auth.swift,
 				"Services/SwiftServices+Auth.swift",
+				Utils/AppTypography.swift,
 			);
 			target = 9F7FBBB72F02F0CC00367C04 /* SwagTests */;
+		};
+		9F9689E12F1878470061B676 /* Exceptions for "Swag" folder in "Swag" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 9F7FBBA42F02F0CB00367C04 /* Swag */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -49,6 +57,7 @@
 		9F7FBBA72F02F0CB00367C04 /* Swag */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				9F9689E12F1878470061B676 /* Exceptions for "Swag" folder in "Swag" target */,
 				9F9689B92F18610C0061B676 /* Exceptions for "Swag" folder in "SwagTests" target */,
 			);
 			path = Swag;
@@ -412,6 +421,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Swag/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -450,6 +460,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Swag/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

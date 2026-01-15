@@ -7,12 +7,79 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct HomeView<ViewModel: HomeViewModelProtocol>: View {
+    @StateObject private var viewModel: ViewModel
+    init(viewModel: ViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView {
+            VStack {
+                headerView()
+                    .padding(.bottom, 24)
+                infoView()
+            }
+            .onTapGesture {
+                viewModel.showAbout()
+            }
+        }
+        .ignoresSafeArea(edges: .all)
+    }
+    
+    private func headerView() -> some View {
+        ZStack {
+            HStack {
+                Rectangle()
+                    .fill(Color.darkPurple)
+                    .frame(width: 200,
+                           height: 200)
+                    .rotationEffect(.degrees(-20))
+                    .offset(y: -24)
+                Spacer()
+            }
+            HStack(alignment: .bottom, spacing: 0) {
+                Image(Images.logo)
+                    .resizable()
+                    .frame(width: 120,
+                           height: 120)
+                Text("Junaid Akram")
+                    .font(AppTypography.title(size: 24))
+                    .padding(.bottom)
+                    .overlay {
+                        HStack {
+                            RoundedRectangle(cornerRadius: 1)
+                                .fill(Color.darkPurple)
+                                .frame(width: 40, height: 3)
+                                .offset(y: 16)
+                            Spacer()
+                        }
+                    }
+                Spacer()
+            }
+            .offset(y: 60)
+            .padding(.horizontal)
+        }
+    }
+    
+    func infoView() -> some View {
+        VStack(alignment: .leading) {
+            Text(viewModel.info)
+                .font(AppTypography.body(size: 14))
+                .multilineTextAlignment(.leading)
+            Text("More about me")
+                .font(AppTypography.body(size: 14))
+                .foregroundStyle(Color.white)
+                .padding(8)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.accentColor)
+                )
+        }
+        .padding(.horizontal)
+        .frame(maxWidth: .infinity)
     }
 }
 
 #Preview {
-    HomeView()
+    HomeView(viewModel: HomeViewModel(coordinator: HomeCoordinator()))
 }

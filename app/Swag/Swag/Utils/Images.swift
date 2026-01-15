@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Images {
+enum Images {
     static let lamp = "lamp"
     static let logo = "logo"
     
