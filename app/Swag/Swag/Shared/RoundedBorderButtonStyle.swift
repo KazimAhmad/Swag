@@ -26,6 +26,7 @@ struct RoundedBorderButtonStyle: ButtonStyle {
             )
             .foregroundColor(textColor)
             .cornerRadius(cornerRadius)
+            .shadow(color: .primary.opacity(0.6), radius: 16)
             .overlay(
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .stroke(borderColor, lineWidth: borderWidth)

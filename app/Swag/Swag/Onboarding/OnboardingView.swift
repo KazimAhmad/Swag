@@ -24,11 +24,9 @@ struct OnboardingView: View {
         HStack(alignment: .bottom) {
             VStack(alignment: .leading) {
                 Text("Welcome to the catalog of")
-                    .font(.headline)
-                    .fontWeight(.thin)
+                    .font(AppTypography.note(size: 28))
                 Text("Junaid Akram")
-                    .font(.largeTitle)
-                    .fontWeight(.black)
+                    .font(AppTypography.title(size: 32))
             }
             Spacer()
             Image(Images.logo)
@@ -74,6 +72,7 @@ struct OnboardingView: View {
                     .foregroundStyle(Color.primary)
             }
         }
+        .font(AppTypography.title(size: 18))
     }
     
     private func logoFloatingHeader() -> some View {
