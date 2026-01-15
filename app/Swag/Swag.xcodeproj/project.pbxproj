@@ -33,6 +33,11 @@
 		9F9689B92F18610C0061B676 /* Exceptions for "Swag" folder in "SwagTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Features/Home/Coordinator/HomeCoordinator.swift,
+				Features/Home/Coordinator/HomeModal.swift,
+				Features/Home/Coordinator/HomeRoute.swift,
+				Features/Home/ViewModel/HomeViewModel.swift,
+				Features/Home/ViewModel/HomeViewModelProtocol.swift,
 				Models/Auth.swift,
 				"Services/SwiftServices+Auth.swift",
 			);
