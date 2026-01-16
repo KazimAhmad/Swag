@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct RoundedBorderButtonStyle: ButtonStyle {
-    var backgroundColor: Color = .darkPurple
-    var borderColor: Color = .darkPurple
+    var backgroundColor: Color = .accentColor
+    var borderColor: Color = .accentColor
     var textColor: Color = .white
     
-    var cornerRadius: CGFloat = 12
-    var borderWidth: CGFloat = 1
+    var cornerRadius: CGFloat = 28
+    var borderWidth: CGFloat = 4
 
     func makeBody(configuration: Configuration) -> some View {
         configuration.label

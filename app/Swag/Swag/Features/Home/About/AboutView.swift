@@ -24,9 +24,8 @@ struct AboutView: View {
                         ZStack {
                             ScrollView {
                                 aboutBody(width: gr.size.width)
-                                abooutMe()
-                                companySize()
-                                story()
+                                moreInfo()
+                                    .padding(.bottom, 80)
                             }
                             VStack {
                                 Spacer()
@@ -77,18 +76,17 @@ struct AboutView: View {
                     }
                     .overlay {
                         Circle()
-                            .stroke(.primary, lineWidth: 4)
+                            .stroke(Color(uiColor: UIColor.systemBackground), lineWidth: 4)
                             .fill(Color.clear)
-                            .colorInvert()
                     }
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Spacer()
                     Text(viewModel.about?.name ?? "")
                         .font(AppTypography.title(size: 20))
-                    imageAndText(image: "briefcase.circle",
+                    imageAndText(image: Images.industry,
                                  text: viewModel.about?.industry ?? "")
-                    imageAndText(image: "mappin.circle",
+                    imageAndText(image: Images.headquarters,
                                  text: viewModel.about?.headquarters ?? "")
                 }
                 Spacer()
@@ -104,7 +102,7 @@ struct AboutView: View {
             Image(systemName: image)
                 .resizable()
                 .frame(width: 20, height: 20)
-                .foregroundStyle(Color.darkPurple)
+                .foregroundStyle(Color.accentColor)
             Text(text)
                 .font(AppTypography.body(size: 16))
         }
@@ -133,47 +131,65 @@ struct AboutView: View {
         .foregroundStyle(Color.white)
     }
     
-    func abooutMe() -> some View {
+    func infoSection(image: String,
+                     text: String,
+                     info: String?) -> some View {
         VStack(alignment: .leading) {
-            headingView(image: "pencil.circle",
+            headingView(image: Images.about,
                         text: "About Me")
-            Text(viewModel.about?.description ?? "")
+            Text(info ?? "")
                 .frame(maxWidth: .infinity, alignment: .leading)
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color.darkPurple)
+                .frame(width: 100, height: 2)
         }
     }
     
-    func companySize() -> some View {
+    func moreInfo() -> some View {
         VStack(alignment: .leading) {
-            headingView(image: "figure.2.circle",
-                        text: "Company Size")
-            Text(viewModel.about?.companySize ?? "")
-                .frame(maxWidth: .infinity, alignment: .leading)
+            infoSection(image: Images.about,
+                        text: "About Me",
+                        info: viewModel.about?.description)
+            infoSection(image: Images.company,
+                        text: "Company Size",
+                        info: viewModel.about?.companySize)
+            infoSection(image: Images.story,
+                        text: "My Story",
+                        info: viewModel.about?.myStory)
         }
     }
     
-    func story() -> some View {
-        VStack(alignment: .leading) {
-            headingView(image: "book.circle",
-                        text: "My Story")
-            Text(viewModel.about?.myStory ?? "")
-                .frame(maxWidth: .infinity, alignment: .leading)
+    func socialMediaButton(image: String,
+                           link: String) -> some View {
+        Button {
+            if let url = URL(string: link) {
+               UIApplication.shared.open(url)
+            }
+        } label: {
+            Image(image)
+                .resizable()
+                .frame(width: 30, height: 30)
         }
     }
     
     func socialMediaFooter() -> some View {
-        HStack {
-            Button {
-                
-            } label: {
-                Image(Images.logo)
-                    .resizable()
-                    .frame(width: 30, height: 30)
-            }
+        HStack(spacing: 24) {
+            socialMediaButton(image: Images.facebook,
+                              link: viewModel.about?.socialMedia.facebook ?? "")
+            socialMediaButton(image: Images.insta,
+                              link: viewModel.about?.socialMedia.instagram ?? "")
+            socialMediaButton(image: Images.youtube,
+                              link: viewModel.about?.socialMedia.youTube ?? "")
+            socialMediaButton(image: Images.patreon,
+                              link: viewModel.about?.socialMedia.patreon ?? "")
         }
+        .foregroundStyle(.white)
         .background(
             RoundedRectangle(cornerRadius: 30)
-                .fill(Color.darkPurple)
-                .frame(width: 250, height: 60)
+                .fill(Color.darkerOrange)
+                .frame(width: 230, height: 60)
+                .shadow(color: Color.primary.opacity(0.6),
+                        radius: 16)
         )
     }
 }

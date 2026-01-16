@@ -59,8 +59,8 @@ struct OnboardingView: View {
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(
-                RoundedBorderButtonStyle(backgroundColor: .accentColor,
-                                         borderColor: .accentColor,
+                RoundedBorderButtonStyle(backgroundColor: .darkerOrange,
+                                         borderColor: .darkerOrange,
                                          cornerRadius: 28)
             )
             
@@ -109,6 +109,8 @@ struct OnboardingView: View {
                 }
             }
             .offset(y: -(50 * offsetMultiplier))
+            .shadow(color: .primary.opacity(0.4),
+                    radius: 8)
     }
 }
 

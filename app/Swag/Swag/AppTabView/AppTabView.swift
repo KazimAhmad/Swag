@@ -32,15 +32,15 @@ enum AppTab: String, Hashable, CaseIterable {
     var symbolImage: String {
         switch self {
         case .home:
-            return "house.circle"
+            return Images.home
         case .videos:
-            return "video.circle"
+            return Images.video
         case .recommendations:
-            return "popcorn.circle"
+            return Images.recommendations
         case .funFacts:
-            return "lightbulb.circle"
+            return Images.funfacts
         case .settings:
-            return "gear"
+            return Images.settings
         }
     }
 }

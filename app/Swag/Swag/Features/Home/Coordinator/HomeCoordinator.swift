@@ -47,9 +47,11 @@ class HomeCoordinator: ObservableObject, HomeCoordinatorProtocol {
 }
 
 extension HomeCoordinator {
-    @ViewBuilder
+    @MainActor @ViewBuilder
     func modalView(for modal: HomeModal) -> some View {
         switch modal {
+        case .about:
+            AboutView(viewModel: AboutViewModel(coordinator: self))
         default:
             Text("Not Implemented")
         }

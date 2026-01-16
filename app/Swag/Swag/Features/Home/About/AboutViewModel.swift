@@ -11,14 +11,14 @@ import Foundation
 class AboutViewModel: ObservableObject {
     @Published var about: About?
     var viewState: ViewState = .loading
-    
-    var coordinator: HomeCoordinator?
+    private let coordinator: HomeCoordinatorProtocol
+
     init(coordinator: HomeCoordinator) {
         self.coordinator = coordinator
     }
     
     func close() {
-        coordinator?.dismissModal()
+        coordinator.dismissModal()
     }
     
     func fetchAbout() {
