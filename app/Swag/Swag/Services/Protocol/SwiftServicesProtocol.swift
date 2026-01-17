@@ -13,20 +13,12 @@ protocol SwiftServicesProtocol {
     var decoder: JSONDecoder { get }
     var errorType: (Codable & Error).Type? { get }
     
-    func request<T: Decodable>(_ path: String,
-                               method: HTTPMethod,
-                               query: [String: Any]?,
-                               body: HTTPBody?,
-                               headers: [String: String]?,
+    func request<T: Decodable>(endpoint: Endpoint,
                                validate: Range<Int>,
                                cachePolicy: URLRequest.CachePolicy?,
                                retry: Bool) async throws -> T
     
-    func request(_ path: String,
-                 method: HTTPMethod,
-                 query: [String: Any]?,
-                 body: HTTPBody?,
-                 headers: [String: String]?,
+    func request(endpoint: Endpoint,
                  validate: Range<Int>,
                  retry: Bool) async throws
     

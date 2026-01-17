@@ -18,3 +18,11 @@ enum HTTPMethod: String {
     case trace = "TRACE"
     case connect = "CONNECT"
 }
+
+protocol Endpoint {
+    var path: String { get }
+    var method: HTTPMethod { get }
+    var headers: [String: String]? { get }
+    var query: [String: Any]? { get }
+    var body: HTTPBody? { get }
+}

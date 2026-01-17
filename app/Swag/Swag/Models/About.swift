@@ -21,6 +21,11 @@ struct About: Codable {
         case myStory = "my_story"
         case socialMedia = "social_media"
     }
+    
+    static func fetch() async throws -> About {
+        let aboutEndpoint = AboutEndpoint.about
+        return try await SwiftServices.shared.request(endpoint: aboutEndpoint)
+    }
 }
 
 // MARK: - SocialMedia

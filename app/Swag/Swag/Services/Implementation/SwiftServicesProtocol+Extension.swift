@@ -9,18 +9,14 @@ import Foundation
 
 //MARK: this is the implementation of the web services protocol as an extension
 extension SwiftServicesProtocol {
-    func request<T: Decodable>(_ path: String,
-                               method: HTTPMethod = .get,
-                               query: [String: Any]? = nil,
-                               body: HTTPBody? = nil,
-                               headers: [String: String]? = nil,
+    func request<T: Decodable>(endpoint: Endpoint,
                                validate: Range<Int> = 200..<300,
                                cachePolicy: URLRequest.CachePolicy? = .useProtocolCachePolicy,
                                retry: Bool = true) async throws -> T {
-        let url = URL(string: path)!
+        let url = URL(string: endpoint.path)!
         
         guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { throw URLError(.badURL) }
-        if let query = query {
+        if let query = endpoint.query {
             if !query.isEmpty {
                 let percentEncodedQuery = (components.percentEncodedQuery.map { $0 + "&" } ?? "") + queryOfReq(query)
                 components.percentEncodedQuery = percentEncodedQuery
@@ -29,22 +25,22 @@ extension SwiftServicesProtocol {
         guard let url = components.url else { throw URLError(.badURL) }
         
         var req = URLRequest(url: url, cachePolicy: cachePolicy ?? .useProtocolCachePolicy)
-        req.httpMethod = method.rawValue
+        req.httpMethod = endpoint.method.rawValue
         
-        headers?.forEach { req.setValue($0.value, forHTTPHeaderField: $0.key) }
+        endpoint.headers?.forEach { req.setValue($0.value, forHTTPHeaderField: $0.key) }
         
         if cachePolicy == nil {
             req.setValue("no-store", forHTTPHeaderField: "Cache-Control")
         }
         
-        switch body {
+        switch endpoint.body {
         case .json:
-            req.httpBody = body?.jsonData(encoder)
+            req.httpBody = endpoint.body?.jsonData(encoder)
         case .formData:
             req.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-            req.httpBody = body?.formData.data
+            req.httpBody = endpoint.body?.formData.data
         case .multiFormData:
-            if let formData = body?.formData {
+            if let formData = endpoint.body?.formData {
                 req.setValue("multipart/form-data; boundary=\(formData.boundary)", forHTTPHeaderField: "Content-Type")
                 req.setValue("\(formData.data.count)", forHTTPHeaderField: "Content-Length")
                 req.httpBody = formData.data
@@ -65,18 +61,10 @@ extension SwiftServicesProtocol {
         }
     }
     
-    func request(_ path: String,
-                 method: HTTPMethod = .get,
-                 query: [String: Any]? = nil,
-                 body: HTTPBody? = nil,
-                 headers: [String: String]? = nil,
+    func request(endpoint: Endpoint,
                  validate: Range<Int> = 200..<300,
                  retry: Bool = true) async throws {
-        let _: HTTPNoReply = try await request(path,
-                                               method: method,
-                                               query: query,
-                                               body: body,
-                                               headers: headers,
+        let _: HTTPNoReply = try await request(endpoint: endpoint,
                                                retry: retry)
     }
     
