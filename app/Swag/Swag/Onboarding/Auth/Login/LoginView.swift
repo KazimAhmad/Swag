@@ -52,7 +52,7 @@ struct LoginView<ViewModel: LoginViewModelProtocol>: View {
                         Image(systemName: viewModel.eyeImage)
                             .resizable()
                             .frame(width: 24, height: 22)
-                            .foregroundStyle(.darkPurple)
+                            .foregroundStyle(.purple)
                             .padding(.trailing)
                     }
                 }

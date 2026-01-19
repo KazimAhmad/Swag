@@ -28,7 +28,7 @@ struct AlertView: View {
                     .resizable()
                     .frame(width: isAnimated ? 100 : 60,
                            height: isAnimated ? 100 : 60)
-                    .foregroundStyle(Color.darkPurple)
+                    .foregroundStyle(Color.purple)
                 Text(isEmptyState ? "Empty!" : "Error!")
                     .font(AppTypography.title(size: 24))
                 if isEmptyState {

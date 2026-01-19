@@ -35,4 +35,6 @@ enum Images {
     static let about = "pencil.circle"
     static let company = "figure.2.circle"
     static let story = "book.circle"
+    
+    static let quote = "quote.closing"
 }

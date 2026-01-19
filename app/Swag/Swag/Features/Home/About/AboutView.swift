@@ -46,7 +46,7 @@ struct AboutView: View {
     private func aboutBody(width: CGFloat) -> some View {
         VStack {
             RoundedRectangle(cornerRadius: 2)
-                .fill(Color.darkPurple)
+                .fill(Color.purple)
                 .frame(width: 60, height: 4)
             if let url = viewModel.about?.coverImage {
                 AsyncImage(url: URL(string: url)) { image in
@@ -140,7 +140,7 @@ struct AboutView: View {
             Text(info ?? "")
                 .frame(maxWidth: .infinity, alignment: .leading)
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.darkPurple)
+                .fill(Color.purple)
                 .frame(width: 100, height: 2)
         }
     }

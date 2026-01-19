@@ -18,9 +18,10 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
                 headerView()
                     .padding(.bottom, 24)
                 infoView()
-            }
-            .onTapGesture {
-                viewModel.showAbout()
+                    .onTapGesture {
+                        viewModel.showAbout()
+                    }
+                thoughtOfTheDayView()
             }
         }
         .ignoresSafeArea(edges: .all)
@@ -30,7 +31,7 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
         ZStack {
             HStack {
                 Rectangle()
-                    .fill(Color.darkPurple)
+                    .fill(Color.purple)
                     .frame(width: 200,
                            height: 200)
                     .rotationEffect(.degrees(-20))
@@ -48,7 +49,7 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
                     .overlay {
                         HStack {
                             RoundedRectangle(cornerRadius: 1)
-                                .fill(Color.darkPurple)
+                                .fill(Color.purple)
                                 .frame(width: 40, height: 3)
                                 .offset(y: 16)
                             Spacer()
@@ -66,17 +67,33 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
             Text(viewModel.info)
                 .font(AppTypography.body(size: 14))
                 .multilineTextAlignment(.leading)
-            Text("More about me")
-                .font(AppTypography.body(size: 14))
-                .foregroundStyle(Color.white)
-                .padding(8)
-                .background(
-                    RoundedRectangle(cornerRadius: 20)
-                        .fill(Color.accentColor)
-                )
+            Text("More about me...")
+                .font(AppTypography.body(size: 16))
+                .foregroundStyle(Color.accentColor)
         }
         .padding(.horizontal)
         .frame(maxWidth: .infinity)
+    }
+    
+    func thoughtOfTheDayView() -> some View {
+        Section {
+            ThoughtView(thought: Thought(id: 1,
+                                         thought: "",
+                                         date: Date())) {}
+        } header: {
+            HStack {
+                Spacer()
+                Button {
+                    
+                } label: {
+                    Text("See all")
+                        .font(AppTypography.body(size: 16))
+                        .offset(y: 24)
+                        .padding(.trailing, 32)
+                }
+            }
+            .foregroundStyle(Color.purple)
+        }
     }
 }
 

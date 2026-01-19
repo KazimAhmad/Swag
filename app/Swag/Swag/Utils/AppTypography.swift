@@ -25,15 +25,7 @@ extension AppTypography {
 
 extension AppTypography {
     static func note(size: CGFloat) -> Font {
-        Font.custom("AlumniSansPinstripe-Regular",
-                    size: size,
-                    relativeTo: .title)
-    }
-}
-
-extension AppTypography {
-    static func noteItalic(size: CGFloat) -> Font {
-        Font.custom("AlumniSansPinstripe-Italic",
+        Font.custom("ShadowsIntoLight",
                     size: size,
                     relativeTo: .title)
     }
