@@ -65,3 +65,26 @@ def thought_create():
         return jsonify({"message": str(e)}), 400
     
     return jsonify({"message": "thought created"}), 201
+
+@app.route("/thoughts", methods = ["DELETE"])
+def delete_thoughts():
+    data = request.get_json()
+    ids = data.get("ids", [])
+
+    if not ids:
+        return jsonify({"error": "No IDs provided"}), 400
+
+    thoughts = Thought.query.filter(Thought.id.in_(ids)).all()
+
+    if not thoughts:
+        return jsonify({"error": "No thoughts found"}), 404
+    
+    for thought in thoughts:
+        db.session.delete(thought)
+
+    db.session.commit()
+
+    return jsonify({
+        "deleted_ids": [t.id for t in thoughts]
+    }), 200
+

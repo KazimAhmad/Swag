@@ -13,14 +13,20 @@ import sys
 sys.path.append("../config/config.py")
 sys.path.append("../requests/auth.py")
 sys.path.append("../requests/about.py")
+sys.path.append("../requests/book.py")
+sys.path.append("../requests/movie.py")
+sys.path.append("../requests/thought_of_day.py")
 
 from config.config import db, app
-from requests import auth, about, images
+from requests import auth, about, images, book, movie, thought_of_day
 
 def requests_files():
     auth()
     about()
     images()
+    book()
+    movie()
+    thought_of_day
 
 # to run only when called this and not on the import because the import runs all the file
 if __name__ == "__main__":

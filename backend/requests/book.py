@@ -3,7 +3,7 @@ from flask import request, jsonify
 from models.book import Book, BookCategory
 
 @app.route("books", methods = ["GET"])
-def movies():
+def books():
     page_number = request.args.get("page", default=1, type=int)
     category = request.args.get("category", default="All", type=str)
 
