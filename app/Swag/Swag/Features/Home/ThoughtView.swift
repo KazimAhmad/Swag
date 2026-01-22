@@ -21,6 +21,7 @@ struct ThoughtView: View {
                 .padding(.bottom)
                 Text(thoughtText())
                     .font(AppTypography.note(size: 16))
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 if thought.more != nil {
                     Button {
                         seeMore()

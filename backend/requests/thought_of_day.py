@@ -54,11 +54,11 @@ def thought_create():
                 "error": "A valid thought is required"
             }
         ), 400
-    new_user = Thought(thought = new_thought,
-                      more = new_more,
-                      date = datetime.now(datetime.timezone.utc))    
+    new_thought = Thought(thought = new_thought,
+                        more = new_more,
+                        date = datetime.now(datetime.timezone.utc))    
     try:
-        db.session.add(new_user)
+        db.session.add(new_thought)
         db.session.commit()
     
     except Exception as e:
