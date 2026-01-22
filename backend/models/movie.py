@@ -1,7 +1,7 @@
 from config.config import db
 from enum import Enum
 
-class MovieCategory(Enum, str):
+class MovieCategory(str, Enum):
     action = "action"
     comedy = "comedy"
     drama = "drama"
@@ -12,7 +12,7 @@ class Movie(db.Model):
     title = db.Column(db.String(64), nullable = False)
     review = db.Column(db.String(256), nullable = False)
     category = db.Column(db.Enum(MovieCategory), nullable = False)
-    rating = db.Column(db.Integer(10), nullable = False)
+    rating = db.Column(db.Integer, nullable = False)
     imdb_link = db.Column(db.String(64), nullable = True)
     release_year = db.Column(db.String(8), nullable = False)
 

@@ -1,5 +1,6 @@
 from flask import jsonify, request
 from datetime import date, datetime, timedelta
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 
 import sys
 sys.path.append("../config/config.py")
@@ -47,24 +48,25 @@ def thoughts():
 def thought_create():
     new_thought = request.json.get("thought")
     new_more = request.json.get("more")
-    
-    if not new_thought:
+
+    if not new_thought or new_thought is None:
         return jsonify(
             {
                 "error": "A valid thought is required"
             }
         ), 400
     new_thought = Thought(thought = new_thought,
-                        more = new_more,
-                        date = datetime.now(datetime.timezone.utc))    
+                        more = new_more)    
     try:
         db.session.add(new_thought)
         db.session.commit()
     
     except Exception as e:
+        db.session.rollback()
         return jsonify({"message": str(e)}), 400
-    
-    return jsonify({"message": "thought created"}), 201
+    new_thought_id = new_thought.id
+
+    return jsonify({"id": new_thought_id}), 201
 
 @app.route("/thoughts", methods = ["DELETE"])
 def delete_thoughts():

@@ -26,7 +26,7 @@ def requests_files():
     images()
     book()
     movie()
-    thought_of_day
+    thought_of_day()
 
 # to run only when called this and not on the import because the import runs all the file
 if __name__ == "__main__":

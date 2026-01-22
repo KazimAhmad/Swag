@@ -2,7 +2,7 @@ from config.config import db, app
 from flask import request, jsonify
 from models.book import Book, BookCategory
 
-@app.route("books", methods = ["GET"])
+@app.route("/books", methods = ["GET"])
 def books():
     page_number = request.args.get("page", default=1, type=int)
     category = request.args.get("category", default="All", type=str)
@@ -19,7 +19,7 @@ def books():
         }
     )
 
-@app.route("books/create", methods = ["POST"])
+@app.route("/books/create", methods = ["POST"])
 def books_create():
     new_title = request.json.get("title")
     new_review = request.json.get("review")

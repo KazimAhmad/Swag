@@ -11,6 +11,7 @@ app.config["UPLOAD_PATH"] = "image_uploads"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///layzkayzdatabase.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config['SQLALCHEMY_ECHO'] = True
 
 db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
