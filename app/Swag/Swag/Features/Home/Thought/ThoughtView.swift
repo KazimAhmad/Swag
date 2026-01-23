@@ -22,7 +22,7 @@ struct ThoughtView: View {
                 Text(thoughtText())
                     .font(AppTypography.note(size: 16))
                     .frame(maxWidth: .infinity, alignment: .leading)
-                if thought.more != nil {
+                if !thought.more.isEmpty {
                     Button {
                         seeMore()
                     } label: {
@@ -38,7 +38,7 @@ struct ThoughtView: View {
         .background(
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color(uiColor: .systemBackground))
-                .shadow(color: Color.primary, radius: 8, y: 8)
+                .shadow(color: Color.primary.opacity(0.4), radius: 8, y: 8)
         )
         .padding()
         .overlay {
@@ -83,7 +83,7 @@ struct ThoughtView: View {
 
 #Preview {
     ThoughtView(thought: Thought(id: 1,
-                                 thought: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                 thought: " specimen book.",
                                  more: "More",
                                  date: Date()))
 }

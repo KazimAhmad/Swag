@@ -16,3 +16,16 @@ enum HomeModal: Identifiable {
         }
     }
 }
+
+enum FullScreenModal: Identifiable {
+    case alert(AlertConfig)
+    case seeMore(SeeMoreConfig)
+    var id: String {
+        switch self {
+        case .alert:
+            return "alert"
+        case .seeMore:
+            return "seeMore"
+        }
+    }
+}

@@ -10,4 +10,6 @@ import Foundation
 protocol HomeViewModelProtocol: ObservableObject {
     var info: String { get }
     func showAbout()
+    func thoughtList()
+    func seeMore(of thought: Thought)
 }

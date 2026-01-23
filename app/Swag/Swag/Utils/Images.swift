@@ -37,4 +37,11 @@ enum Images {
     static let story = "book.circle"
     
     static let quote = "quote.closing"
+    
+    static let delete = "trash.circle"
+    static let warning = "exclamationmark.circle"
+    static let done = "checkmark.circle"
+    static let info = "info.circle"
+    static let empty = "archivebox.circle"
+    static let error = "multiply.circle"
 }

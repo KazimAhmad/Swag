@@ -16,9 +16,10 @@ struct AboutView: View {
                 if viewModel.viewState == .loading {
                     LoadingView()
                 } else if case .error(_) = viewModel.viewState {
-                    AlertView {
+                    AlertView(config: .init(alertType: .error,
+                                            buttons: AlertButtons(onConfirm: {
                         viewModel.close()
-                    }
+                    })))
                 } else {
                     GeometryReader { gr in
                         ZStack {

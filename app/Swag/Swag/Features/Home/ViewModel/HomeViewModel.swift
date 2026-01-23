@@ -21,4 +21,19 @@ class HomeViewModel: HomeViewModelProtocol {
     func showAbout() {
         coordinator?.activeModal = .about
     }
+    
+    func thoughtList() {
+        coordinator?.navigate(to: .thoughtList)
+    }
+}
+
+extension HomeViewModel {
+    func seeMore(of thought: Thought) {
+        coordinator?.show(.seeMore(SeeMoreConfig(type: .thought,
+                                                 title: thought.thought,
+                                                 description: thought.more,
+                                                 dismiss: { [weak self] in
+            self?.coordinator?.dismissFullScreenModal()
+        })))
+    }
 }

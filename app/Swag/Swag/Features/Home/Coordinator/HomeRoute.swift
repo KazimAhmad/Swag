@@ -8,5 +8,5 @@
 import Foundation
 
 enum HomeRoute: Hashable {
-    
+    case thoughtList
 }

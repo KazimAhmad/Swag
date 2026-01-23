@@ -79,12 +79,13 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
         Section {
             ThoughtView(thought: Thought(id: 1,
                                          thought: "",
+                                         more: "",
                                          date: Date())) {}
         } header: {
             HStack {
                 Spacer()
                 Button {
-                    
+                    viewModel.thoughtList()
                 } label: {
                     Text("See all")
                         .font(AppTypography.body(size: 16))
