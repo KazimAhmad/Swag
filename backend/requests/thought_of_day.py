@@ -32,7 +32,9 @@ def thought_day():
 @app.route("/thoughts", methods = ["GET"])
 def thoughts():
     page_number = request.args.get("page", default=1, type=int)
-    thoughts = Thought.query.paginate(per_page=10, page=page_number)
+    thoughts = Thought.query.order_by(
+        Thought.date.desc()
+    ).paginate(per_page=5, page=page_number)
 
     json_thoughts = list(map(lambda thought: thought.to_json(), thoughts.items))
     

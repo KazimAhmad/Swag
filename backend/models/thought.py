@@ -10,10 +10,14 @@ class Thought(db.Model):
     def __repr__(self):
         return f"Thought of the day ('{self.thought}', '{self.more}')"
 
+    @property
+    def date_str(self):
+        return self.date.strftime('%Y-%m-%d %H:%M:%S')
+
     def to_json(self):
         return {
             "id": self.id,
             "thought": self.thought,
             "more": self.more,
-            "date": self.date
+            "date": self.date.strftime('%Y-%m-%d %H:%M:%S')
         }
