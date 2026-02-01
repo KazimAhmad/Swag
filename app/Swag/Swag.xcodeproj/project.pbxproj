@@ -34,7 +34,6 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Features/Home/Coordinator/HomeCoordinator.swift,
-				Features/Home/Coordinator/HomeModal.swift,
 				Features/Home/Coordinator/HomeRoute.swift,
 				Features/Home/ViewModel/HomeViewModel.swift,
 				Features/Home/ViewModel/HomeViewModelProtocol.swift,

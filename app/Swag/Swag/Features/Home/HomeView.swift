@@ -24,6 +24,9 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
                 thoughtOfTheDayView()
             }
         }
+        .task {
+            viewModel.getThoughtOfDay()
+        }
         .ignoresSafeArea(edges: .all)
     }
     
@@ -77,10 +80,16 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
     
     func thoughtOfTheDayView() -> some View {
         Section {
-            ThoughtView(thought: Thought(id: 1,
-                                         thought: "",
-                                         more: "",
-                                         date: Date())) {}
+            if let thought = viewModel.thoughtOfTheDay {
+                ThoughtView(thought: thought) {
+                    viewModel.seeMore(of: thought)
+                }
+            } else {
+                ThoughtView(thought: Thought(id: 1,
+                                             thought: "",
+                                             more: "",
+                                             date: Date())) {}
+            }
         } header: {
             HStack {
                 Spacer()
@@ -99,5 +108,6 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
 }
 
 #Preview {
-    HomeView(viewModel: HomeViewModel(coordinator: HomeCoordinator()))
+    HomeView(viewModel: HomeViewModel(coordinator: HomeCoordinator(),
+                                      thoughtRepo: ThoughtRepository()))
 }

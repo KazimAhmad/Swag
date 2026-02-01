@@ -63,5 +63,6 @@ struct ThoughtListView: View {
 }
 
 #Preview {
-    ThoughtListView(viewModel: ThoughtListViewModel(coordinator: HomeCoordinator()))
+    ThoughtListView(viewModel: ThoughtListViewModel(coordinator: HomeCoordinator(),
+                                                    thoughtRepo: ThoughtRepository()))
 }

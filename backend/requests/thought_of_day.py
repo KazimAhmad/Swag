@@ -22,12 +22,17 @@ def thought_day():
     ).all()
 
     json_thoughts = list(map(lambda thought: thought.to_json(), thoughts))
-    
-    return jsonify(
-        {
-            "thought_of_day": json_thoughts
-        }
-    )
+    if len(json_thoughts) > 0:
+        first_thought = json_thoughts[0]
+        return jsonify(
+            first_thought
+        ), 200
+    else :
+        return jsonify(
+            {
+                "error": "no thought today yet"
+            }
+        ), 400
 
 @app.route("/thoughts", methods = ["GET"])
 def thoughts():
@@ -43,7 +48,7 @@ def thoughts():
             "total": thoughts.total,
             "items": json_thoughts
         }
-    )
+    ), 200
 
 #create a thought
 @app.route("/thoughts/create", methods = ["POST"])

@@ -70,6 +70,7 @@ struct OnboardingView: View {
                 Text("Enter as guest")
                     .frame(height: 28)
                     .foregroundStyle(Color.primary)
+                    .padding(.vertical)
             }
         }
         .font(AppTypography.title(size: 18))

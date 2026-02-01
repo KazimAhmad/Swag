@@ -1,6 +1,6 @@
 //
 //  SeeMoreView.swift
-//  SwagAdmin
+//  Swag
 //
 //  Created by Kazim Ahmad on 22/01/2026.
 //

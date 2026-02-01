@@ -44,4 +44,7 @@ enum Images {
     static let info = "info.circle"
     static let empty = "archivebox.circle"
     static let error = "multiply.circle"
+    
+    static let link = "link"
+    static let disclose = "chevron.right"
 }

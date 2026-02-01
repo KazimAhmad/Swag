@@ -9,9 +9,14 @@ import Foundation
 
 class HomeViewModel: HomeViewModelProtocol {
     private weak var coordinator: HomeCoordinator?
+    private var thoughtRepo: ThoughtRepositoryProtocol
 
-    init(coordinator: HomeCoordinator?) {
+    @Published var thoughtOfTheDay: Thought?
+    
+    init(coordinator: HomeCoordinator?,
+         thoughtRepo: ThoughtRepositoryProtocol) {
         self.coordinator = coordinator
+        self.thoughtRepo = thoughtRepo
     }
 
     var info: String {
@@ -19,21 +24,32 @@ class HomeViewModel: HomeViewModelProtocol {
     }
     
     func showAbout() {
-        coordinator?.activeModal = .about
+        coordinator?.present(sheet: .about)
     }
     
     func thoughtList() {
-        coordinator?.navigate(to: .thoughtList)
+        coordinator?.push(.thoughtList)
+    }
+    
+    func getThoughtOfDay() {
+        Task {
+            do {
+                thoughtOfTheDay = try await thoughtRepo.oftheday()
+            } catch {
+                print(error)
+            }
+        }
     }
 }
 
 extension HomeViewModel {
     func seeMore(of thought: Thought) {
-        coordinator?.show(.seeMore(SeeMoreConfig(type: .thought,
-                                                 title: thought.thought,
-                                                 description: thought.more,
-                                                 dismiss: { [weak self] in
-            self?.coordinator?.dismissFullScreenModal()
-        })))
+        let config = SeeMoreConfig(type: .thought,
+                                   title: thought.thought,
+                                   description: thought.more,
+                                   dismiss: { [weak self] in
+            self?.coordinator?.dismissFullScreenCover()
+        })
+        coordinator?.seeMoreView(config: config)
     }
 }

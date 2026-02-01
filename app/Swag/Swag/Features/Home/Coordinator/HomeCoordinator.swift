@@ -8,71 +8,45 @@
 import Foundation
 import SwiftUI
 
-protocol HomeCoordinatorProtocol {
-    func navigate(to destination: HomeRoute)
-    func pop()
-    func present(_ modal: HomeModal)
-    func dismissModal()
-    func show(_ modal: FullScreenModal)
-    func dismissFullScreenModal()
-}
-
-class HomeCoordinator: ObservableObject, HomeCoordinatorProtocol {
+class HomeCoordinator: CoordinatorProtocol {
+    typealias Route = HomeRoute
+    typealias Sheet = HomeSheet
+    typealias FullScreenCover = HomeFullScreen
+    
     @Published var path = NavigationPath()
-    @Published var activeModal: HomeModal? = nil
-    @Published var activeFullScreenModal: FullScreenModal? = nil
-
-    func navigate(to destination: HomeRoute) {
-        path.append(destination)
+    @Published var sheet: Sheet?
+    @Published var fullScreenCover: FullScreenCover?
+    
+    let thoughtRepo = ThoughtRepository()
+    
+    var coordinatorView: AnyView {
+        AnyView(CoordinatorView(coordinator: self))
     }
     
-    func pop() {
-        path.removeLast()
+    var mainView: some View {
+        build(page: .home)
     }
     
-    // MARK: - Modals
-    func present(_ modal: HomeModal) {
-        activeModal = modal
-    }
-    
-    func dismissModal() {
-        activeModal = nil
-    }
-    
-    func show(_ modal: FullScreenModal) {
-        activeFullScreenModal = modal
-    }
-    
-    func dismissFullScreenModal() {
-        activeFullScreenModal = nil
-    }
-}
-
-// MARK: - View Builders
-extension HomeCoordinator {
-    @MainActor @ViewBuilder
-    func destinationView(for destination: HomeRoute) -> some View {
-        switch destination {
+    func build(page: Route) -> some View {
+        switch page {
+        case .home:
+            HomeView(viewModel: HomeViewModel(coordinator: self,
+                                              thoughtRepo: thoughtRepo))
         case .thoughtList:
-            ThoughtListView(viewModel: ThoughtListViewModel(coordinator: self))
+            ThoughtListView(viewModel: ThoughtListViewModel(coordinator: self,
+                                                            thoughtRepo: thoughtRepo))
         }
     }
-}
-
-extension HomeCoordinator {
-    @MainActor @ViewBuilder
-    func modalView(for modal: HomeModal) -> some View {
-        switch modal {
+    
+    func build(sheet: Sheet) -> some View {
+        switch sheet {
         case .about:
             AboutView(viewModel: AboutViewModel(coordinator: self))
         }
     }
-}
-
-extension HomeCoordinator {
-    @MainActor @ViewBuilder
-    func fullScreenModalView(for modal: FullScreenModal) -> some View {
-        switch modal {
+    
+    func build(fullScreenCover: FullScreenCover) -> some View {
+        switch fullScreenCover {
         case .alert(let config):
             AlertView(config: config)
                 .background(ClearBackgroundView())
@@ -83,3 +57,8 @@ extension HomeCoordinator {
     }
 }
 
+extension HomeCoordinator {
+    func seeMoreView(config: SeeMoreConfig) {
+        present(fullScreenCover: .seeMore(config))
+    }
+}

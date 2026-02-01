@@ -7,9 +7,12 @@
 
 import Foundation
 
+@preconcurrency @MainActor
 protocol HomeViewModelProtocol: ObservableObject {
     var info: String { get }
     func showAbout()
     func thoughtList()
     func seeMore(of thought: Thought)
+    func getThoughtOfDay()
+    var thoughtOfTheDay : Thought? { get set }
 }
