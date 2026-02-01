@@ -29,6 +29,7 @@ def fact_create():
     new_description = request.json.get("description")
     new_link = request.json.get("link")
     new_fact_category = request.json.get("category")
+
     new_fact_category_name = new_fact_category("name")
 
     fact_category = FactCategory(new_fact_category_name)
@@ -64,7 +65,8 @@ def fact_create():
             }
         ), 400
     
-    return jsonify({"message": "fact created"}), 200
+    new_fact_id = new_fact.id
+    return jsonify({"id": new_fact_id}), 201
 
 @app.route("/facts", methods = ["DELETE"])
 def delete_facts():
@@ -120,7 +122,9 @@ def fact_category_create():
             }
         ), 400
     
-    return jsonify({"message": "fact category created"}), 200
+    new_fact_category_id = new_fact_category.id
+    return jsonify({"id": new_fact_category_id}), 201
+
 
 @app.route("/facts/categories", methods = ["GET"])
 def facts_categories():
