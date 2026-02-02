@@ -14,7 +14,7 @@ def facts():
         Fact.date.desc()
     ).paginate(per_page=5, page=page_number)
 
-    facts_to_json = list(map(lambda thought: thought.to_json(), facts.items))
+    facts_to_json = list(map(lambda fact: fact.to_json(), facts.items))
     
     return jsonify(
         {

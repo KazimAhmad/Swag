@@ -22,7 +22,7 @@ class Fact(db.Model):
             "description": self.description,
             "link": self.link,
             "date": self.date,
-            "category": self.category
+            "category": self.category.to_json()
         }
     
 
