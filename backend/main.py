@@ -16,9 +16,10 @@ sys.path.append("../requests/about.py")
 sys.path.append("../requests/book.py")
 sys.path.append("../requests/movie.py")
 sys.path.append("../requests/thought_of_day.py")
+sys.path.append("../requests/fact.py")
 
 from config.config import db, app
-from requests import auth, about, images, book, movie, thought_of_day
+from requests import auth, about, images, book, movie, thought_of_day, fact
 
 def requests_files():
     auth()
@@ -27,6 +28,7 @@ def requests_files():
     book()
     movie()
     thought_of_day()
+    fact()
 
 # to run only when called this and not on the import because the import runs all the file
 if __name__ == "__main__":

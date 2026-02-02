@@ -5,7 +5,7 @@ sys.path.append("../models/video.py")
 
 from config.config import db, app
 from models.fact import Fact, FactCategory
-from datetime import datetime
+import datetime
 
 @app.route("/facts", methods = ["GET"])
 def facts():
@@ -29,10 +29,10 @@ def fact_create():
     new_description = request.json.get("description")
     new_link = request.json.get("link")
     new_fact_category = request.json.get("category")
+    
+    new_fact_category_name = new_fact_category["name"]
 
-    new_fact_category_name = new_fact_category("name")
-
-    fact_category = FactCategory(new_fact_category_name)
+    fact_category = FactCategory.query.filter_by(name = new_fact_category_name).first()
 
     if not new_title:
         return jsonify(
@@ -51,7 +51,7 @@ def fact_create():
     new_fact = Fact(title = new_title,
                     description = new_description,
                     link = new_link,
-                    date = datetime.now(datetime.timezone.utc),
+                    date = datetime.datetime.now(datetime.timezone.utc),
                     category = fact_category)
     
     try:
@@ -94,7 +94,7 @@ def delete_facts():
 def fact_category_create():
     new_name = request.json.get("name")
 
-    same_category = FactCategory.query.filter_by(new_name).first()
+    same_category = FactCategory.query.filter_by(name = new_name).first()
     if same_category:
         return jsonify(
             {
@@ -109,7 +109,7 @@ def fact_category_create():
             }
         ), 400
     
-    new_fact_category = FactCategory(title = new_name)
+    new_fact_category = FactCategory(name = new_name)
     
     try:
         db.session.add(new_fact_category)
@@ -128,11 +128,9 @@ def fact_category_create():
 
 @app.route("/facts/categories", methods = ["GET"])
 def facts_categories():
-    facts_cats = FactCategory.query.all()
-    facts_to_json = list(map(lambda fact: fact.to_json(), facts_cats))
+    fact_cats = FactCategory.query.all()
+    fact_cats_to_json = list(map(lambda fact: fact.to_json(), fact_cats))
 
     return jsonify(
-        {
-            "facts": facts_to_json
-        }
+        fact_cats_to_json
     )
