@@ -5,28 +5,38 @@ from models.movie import Movie, MovieCategory
 @app.route("/movies", methods = ["GET"])
 def movies():
     page_number = request.args.get("page", default=1, type=int)
-    category = request.args.get("category", default="All", type=str)
+    movie_query = Movie.query
 
-    movies = Movie.query.filter_by(
-        Movie.category == category
-    ).paginate(per_page = 10, page=page_number).limit(3).all()
+    if "category_id" in request.args:
+        category_id = request.args.get("category_id", type=int)
+        movie_query = movie_query.filter(Movie.category_id == category_id)
+    movies = movie_query.order_by(
+        Movie.title.desc()
+    ).paginate(per_page=5, page=page_number)
 
-    json_movies = list(map(lambda movie: movie.to_json, movies))
-
+    movies_to_json = list(map(lambda movie: movie.to_json(), movies.items))
+    
     return jsonify(
         {
-            "movies": json_movies
+            "total": movies.total,
+            "items": movies_to_json
         }
     )
 
 @app.route("/movies/create", methods = ["POST"])
 def movies_create():
-    new_title = request.json.get("title")
-    new_review = request.json.get("review")
-    new_category = request.json.get("category")
-    new_rating = request.json.get("rating")
-    new_imdb_link = request.json.get("imdb_link")
-    new_release_year = request.json.get("release_year")
+    data = request.get_json()
+
+    new_title = data.get("title")
+    new_review = data.get("review")
+    new_movie_category = data.get("category")
+    new_rating = data.get("rating")
+    new_imdb_link = data.get("imdb_link")
+    new_release_year = data.get("release_year")
+
+    new_movie_category_name = new_movie_category["name"]
+    movie_category = MovieCategory.query.filter_by(name = new_movie_category_name).first()
+
 
     if not new_title:
         return jsonify(
@@ -34,8 +44,7 @@ def movies_create():
                 "error": "a valid title is required"
             }
         ), 400
-    new_category_enum = MovieCategory(new_category)
-    if not new_category_enum:
+    if not movie_category:
         return jsonify(
             {
                 "error": "a valid category is required"
@@ -43,7 +52,7 @@ def movies_create():
         ), 400
     new_movie = Movie(title = new_title,
                       review = new_review,
-                      category = new_category_enum,
+                      category = movie_category,
                       rating = new_rating,
                       imdb_link = new_imdb_link,
                       release_year = new_release_year)
@@ -64,3 +73,94 @@ def movies_create():
             "message": "movie created successfully"
         }
     ), 200
+
+@app.route("/movies", methods = ["DELETE"])
+def delete_movie():
+    data = request.get_json()
+    ids = data.get("ids", [])
+
+    if not ids:
+        return jsonify({"error": "No IDs provided"}), 400
+
+    movies = Movie.query.filter(Movie.id.in_(ids)).all()
+
+    if not movies:
+        return jsonify({"error": "No movie found"}), 404
+    
+    for movie in movies:
+        db.session.delete(movie)
+
+    db.session.commit()
+
+    return jsonify({
+        "deleted_ids": [t.id for t in movies]
+    }), 200
+
+
+@app.route("/movies/categories", methods = ["GET"])
+def movies_categories():
+    movies_cats = MovieCategory.query.all()
+    movies_cats_to_json = list(map(lambda movie: movie.to_json(), movies_cats))
+
+    return jsonify(
+        movies_cats_to_json
+    )
+
+
+@app.route("/movies/category/create", methods = ["POST"])
+def movie_category_create():
+    new_name = request.json.get("name")
+
+    same_category = MovieCategory.query.filter_by(name = new_name).first()
+    if same_category:
+        return jsonify(
+            {
+                "error": "a  movie category with same name already exists"
+            }
+        ), 400
+    
+    if not new_name:
+        return jsonify(
+            {
+                "error": "A valid name is required"
+            }
+        ), 400
+    
+    new_movie_category = MovieCategory(name = new_name)
+    
+    try:
+        db.session.add(new_movie_category)
+        db.session.commit()
+    
+    except Exception as e:
+        return jsonify(
+            {
+                "error": str(e) 
+            }
+        ), 400
+    
+    new_movie_category_id = new_movie_category.id
+    return jsonify({"id": new_movie_category_id}), 201
+
+
+@app.route("/movies/categories", methods = ["DELETE"])
+def delete_movies_category():
+    data = request.get_json()
+    ids = data.get("ids", [])
+
+    if not ids:
+        return jsonify({"error": "No IDs provided"}), 400
+
+    movies_cats = MovieCategory.query.filter(MovieCategory.id.in_(ids)).all()
+
+    if not movies_cats:
+        return jsonify({"error": "No categories found"}), 404
+    
+    for cat in movies_cats:
+        db.session.delete(cat)
+
+    db.session.commit()
+
+    return jsonify({
+        "deleted_ids": [t.id for t in movies_cats]
+    }), 200
