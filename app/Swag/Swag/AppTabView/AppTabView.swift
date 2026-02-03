@@ -48,6 +48,7 @@ enum AppTab: String, Hashable, CaseIterable {
 struct AppTabView: View {
     @State private var selectedTab: AppTab = .home
     var homeCoordinator = HomeCoordinator()
+    var funFactCoordinator = FactCoordinator()
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -79,10 +80,8 @@ struct AppTabView: View {
             }
             .tag(AppTab.recommendations)
         case .funFacts:
-            NavigationStack {
-                Text(tab.title)
-            }
-            .tag(AppTab.funFacts)
+            funFactCoordinator.coordinatorView
+                .tag(AppTab.funFacts)
         case .settings:
             NavigationStack {
                 Text(tab.title)

@@ -17,7 +17,7 @@ class HomeCoordinator: CoordinatorProtocol {
     @Published var sheet: Sheet?
     @Published var fullScreenCover: FullScreenCover?
     
-    let thoughtRepo = ThoughtRepository()
+    let thoughtRepo = ThoughtRepository(coreData: ThoughtCoreData(context: PersistenceController.shared.container.viewContext))
     
     var coordinatorView: AnyView {
         AnyView(CoordinatorView(coordinator: self))

@@ -64,5 +64,5 @@ struct ThoughtListView: View {
 
 #Preview {
     ThoughtListView(viewModel: ThoughtListViewModel(coordinator: HomeCoordinator(),
-                                                    thoughtRepo: ThoughtRepository()))
+                                                    thoughtRepo: ThoughtRepository(coreData: ThoughtCoreData(context: PersistenceController.shared.container.viewContext))))
 }

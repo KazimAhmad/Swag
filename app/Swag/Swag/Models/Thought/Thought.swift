@@ -25,3 +25,12 @@ struct Thought: Codable {
     var more: String
     var date: Date
 }
+
+extension Thought {
+    init(from entity: CDThought) throws {
+        self.id = Int(entity.id)
+        self.thought = entity.thought ?? ""
+        self.more = entity.more ?? ""
+        self.date = entity.date ?? Date()
+    }
+}
