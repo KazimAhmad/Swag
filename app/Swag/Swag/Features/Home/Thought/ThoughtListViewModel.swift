@@ -38,7 +38,9 @@ class ThoughtListViewModel: ObservableObject {
                 self.viewState = .info
             }
             catch {
-                self.viewState = .error(error)
+                if thoughts.count == 0 {
+                    self.viewState = .error(error)                    
+                }
             }
         }
     }

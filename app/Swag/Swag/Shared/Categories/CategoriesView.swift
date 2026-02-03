@@ -12,7 +12,6 @@ struct CategoriesView: View {
     
     var body: some View {
         ZStack {
-            Color.gray.opacity(0.6)
             GeometryReader { geometry in
                 VStack {
                     Spacer()
@@ -78,6 +77,8 @@ struct CategoriesView: View {
         .background(
             RoundedRectangle(cornerRadius: 20)
                 .fill(Color(uiColor: .systemBackground))
+                .shadow(color: .primary,
+                        radius: 24)
         )
         .padding()
         .padding(.bottom)
