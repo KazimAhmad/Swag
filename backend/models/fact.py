@@ -32,7 +32,7 @@ class FactCategory(db.Model):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
 
-    facts = relationship("Fact", back_populates="category")
+    facts = relationship("Fact", back_populates="category", cascade="all, delete-orphan")
 
     def to_json(self):
         return {

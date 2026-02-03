@@ -10,7 +10,13 @@ import datetime
 @app.route("/facts", methods = ["GET"])
 def facts():
     page_number = request.args.get("page", default=1, type=int)
-    facts = Fact.query.order_by(
+
+    fact_query = Fact.query
+
+    if "category_id" in request.args:
+        category_id = request.args.get("category_id", type=int)
+        fact_query = fact_query.filter(Fact.category_id == category_id)
+    facts = fact_query.order_by(
         Fact.date.desc()
     ).paginate(per_page=5, page=page_number)
 
@@ -134,3 +140,25 @@ def facts_categories():
     return jsonify(
         fact_cats_to_json
     )
+
+@app.route("/facts/categories", methods = ["DELETE"])
+def delete_fact_category():
+    data = request.get_json()
+    ids = data.get("ids", [])
+
+    if not ids:
+        return jsonify({"error": "No IDs provided"}), 400
+
+    fact_cats = FactCategory.query.filter(FactCategory.id.in_(ids)).all()
+
+    if not fact_cats:
+        return jsonify({"error": "No categories found"}), 404
+    
+    for cat in fact_cats:
+        db.session.delete(cat)
+
+    db.session.commit()
+
+    return jsonify({
+        "deleted_ids": [t.id for t in fact_cats]
+    }), 200
