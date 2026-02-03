@@ -2,21 +2,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 from config.config import db
 
-class MovieCategory(db.Model):
-    __tablename__ = "movie_categories"
-
-    id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
-
-    facts = relationship("Movie", back_populates="category", cascade="all, delete-orphan")
-
-    def to_json(self):
-        return {
-            "id": self.id,
-            "name": self.name
-        }
-
-
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key = True, nullable = False)
     title = db.Column(db.String(64), nullable = False)
@@ -42,3 +27,17 @@ class Movie(db.Model):
             "category": self.category.to_json()
         }
     
+
+class MovieCategory(db.Model):
+    __tablename__ = "movie_categories"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+
+    movies = relationship("Movie", back_populates="category", cascade="all, delete-orphan")
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
