@@ -6,7 +6,7 @@ class Movie(db.Model):
     id = db.Column(db.Integer, primary_key = True, nullable = False)
     title = db.Column(db.String(64), nullable = False)
     my_review = db.Column(db.String(256), nullable = False)
-    rating = db.Column(db.Integer, nullable = False)
+    rating = db.Column(db.Double, nullable = False)
     imdb_link = db.Column(db.String(64), nullable = True)
     release_year = db.Column(db.String(8), nullable = False)
 
