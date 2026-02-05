@@ -4,12 +4,12 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
-
+databaseName = "sqlite:///layzkayzdatabase.db"
 #app configs for data base
 app.config["UPLOAD_EXTENSIONS"] = [".jpg", ".png"]
 app.config["UPLOAD_PATH"] = "image_uploads"
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///layzkayzdatabase.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = databaseName
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config['SQLALCHEMY_ECHO'] = True
 

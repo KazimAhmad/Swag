@@ -51,7 +51,7 @@ def movies_create():
             }
         ), 400
     new_movie = Movie(title = new_title,
-                      review = new_review,
+                      my_review = new_review,
                       category = movie_category,
                       rating = new_rating,
                       imdb_link = new_imdb_link,
@@ -154,7 +154,7 @@ def delete_movies_category():
     movies_cats = MovieCategory.query.filter(MovieCategory.id.in_(ids)).all()
 
     if not movies_cats:
-        return jsonify({"error": "No categories found"}), 404
+        return jsonify({"error": "No categories found"}), 400
     
     for cat in movies_cats:
         db.session.delete(cat)

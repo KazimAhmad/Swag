@@ -1,16 +1,18 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from config.config import db
 
 class Movie(db.Model):
-    id = db.Column(db.Integer, primary_key = True, nullable = False)
-    title = db.Column(db.String(64), nullable = False)
-    my_review = db.Column(db.String(256), nullable = False)
-    rating = db.Column(db.Double, nullable = False)
-    imdb_link = db.Column(db.String(64), nullable = True)
-    release_year = db.Column(db.String(8), nullable = False)
+    __tablename__ = "movie"
 
-    category_id = Column(Integer, ForeignKey("movie_categories.id"))
+    id = Column(Integer, primary_key = True, nullable = False)
+    title = Column(String(64), nullable = False)
+    my_review = Column(String(256), nullable = False)
+    rating = Column(Float, nullable = False)
+    imdb_link = Column(String(64), nullable = True)
+    release_year = Column(String(8), nullable = False)
+
+    category_id = Column(Integer, ForeignKey("movie_category.id"))
     category = relationship("MovieCategory", back_populates="movies")
 
     def __repr__(self):
@@ -29,7 +31,7 @@ class Movie(db.Model):
     
 
 class MovieCategory(db.Model):
-    __tablename__ = "movie_categories"
+    __tablename__ = "movie_category"
 
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
