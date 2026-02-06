@@ -1,10 +1,6 @@
+from sqlalchemy import Column, Integer, String, ForeignKey, Float
+from sqlalchemy.orm import relationship
 from config.config import db
-from enum import Enum
-
-class BookCategory(str, Enum):
-    action = "action"
-    comedy = "comedy"
-    drama = "drama"
 
 class Book(db.Model):
     id = db.Column(db.Integer, primary_key = True, nullable = False)
@@ -14,6 +10,9 @@ class Book(db.Model):
     rating = db.Column(db.Integer, nullable = False)
     link = db.Column(db.String(64), nullable = True)
     release_year = db.Column(db.String(8), nullable = False)
+
+    category_id = Column(Integer, ForeignKey("book_category.id"))
+    category = relationship("BookCategory", back_populates="books")
 
     def __repr__(self):
         return f"Book recommendation ('{self.title}', '{self.review}')"
@@ -27,4 +26,19 @@ class Book(db.Model):
             "rating": self.rating,
             "imdb_link": self.imdb_link,
             "release_year": self.release_year,
+            "category": self.category.to_json()
+        }
+
+class BookCategory(db.Model):
+    __tablename__ = "book_category"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+
+    books = relationship("Book", back_populates="category", cascade="all, delete-orphan")
+
+    def to_json(self):
+        return {
+            "id": self.id,
+            "name": self.name
         }

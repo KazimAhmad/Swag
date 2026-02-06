@@ -12,7 +12,7 @@ def movies():
         movie_query = movie_query.filter(Movie.category_id == category_id)
     movies = movie_query.order_by(
         Movie.title.desc()
-    ).paginate(per_page=5, page=page_number)
+    ).paginate(per_page=6, page=page_number)
 
     movies_to_json = list(map(lambda movie: movie.to_json(), movies.items))
     
