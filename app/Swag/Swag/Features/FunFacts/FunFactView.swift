@@ -32,7 +32,7 @@ struct FunFactView: View {
             }
             .task {
                 if viewModel.categories.count == 0 {
-                    viewModel.getInitialData()                    
+                    viewModel.getInitialData()
                 }
             }
         }

@@ -1,46 +1,46 @@
 //
-//  FactCoordinator.swift
+//  RecommendationCoordinator.swift
 //  SwagAdmin
 //
-//  Created by Kazim Ahmad on 01/02/2026.
+//  Created by Kazim Ahmad on 04/02/2026.
 //
 
 import SwiftUI
 
-class FactCoordinator: CoordinatorProtocol {
-    typealias Route = FactRoute
-    typealias Sheet = FactSheet
-    typealias FullScreenCover = FactFullScreenCover
+class BooksCoordinator: CoordinatorProtocol {
+    typealias Route = BooksRoute
+    typealias Sheet = BooksSheet
+    typealias FullScreenCover = BooksFullScreenCover
     
     @Published var path = NavigationPath()
     @Published var sheet: Sheet?
     @Published var fullScreenCover: FullScreenCover?
 
-    let repository = FactRepository(coreData: FactCoreData(context: PersistenceController.shared.container.viewContext))
+    let repository = BookRepository(coreData: BookCoreData(context: PersistenceController.shared.container.viewContext))
     
     var coordinatorView: AnyView {
         AnyView(CoordinatorView(coordinator: self))
     }
     
     var mainView: some View {
-        build(page: .facts)
+        build(page: .books)
     }
     
-    func build(page: FactRoute) -> some View {
+    func build(page: BooksRoute) -> some View {
         switch page {
-        case .facts:
-            return FunFactView(viewModel: FunFactViewModel(coordinator: self))
+        case .books:
+            return BooksView(viewModel: BooksViewModel(coordinator: self))
         }
     }
     
-    func build(sheet: FactSheet) -> some View {
+    func build(sheet: BooksSheet) -> some View {
         switch sheet {
         case .new(let categories, let callback):
             Text("new")
         }
     }
     
-    func build(fullScreenCover: FactFullScreenCover) -> some View {
+    func build(fullScreenCover: BooksFullScreenCover) -> some View {
         switch fullScreenCover {
         case .seeMore(let config):
             SeeMoreView(config: config)
@@ -55,7 +55,7 @@ class FactCoordinator: CoordinatorProtocol {
     }
 }
 
-extension FactCoordinator {
+extension BooksCoordinator {
     @MainActor
     func seeAllCategories(categories: [Category],
                           selectedCategory: Category?,
@@ -64,7 +64,7 @@ extension FactCoordinator {
                           didDeleteCategory: ((Category?) -> Void)?) {
         present(fullScreenCover: .categories(.init(categories: categories,
                                                    selectedCategory: selectedCategory,
-                                                   categoryType: .facts,
+                                                   categoryType: .books,
                                                    didSelectCategory: { [weak self] cat in
             didSelectCategory?(cat)
             self?.dismissFullScreenCover()

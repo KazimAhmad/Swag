@@ -1,18 +1,18 @@
 //
-//  FactRoute.swift
+//  RecommendationRoute.swift
 //  SwagAdmin
 //
-//  Created by Kazim Ahmad on 01/02/2026.
+//  Created by Kazim Ahmad on 04/02/2026.
 //
 
 import Foundation
 
-enum FactRoute: Hashable {
-    case facts
+enum MoviesRoute: Hashable {
+    case movie
 }
 
-enum FactSheet: Identifiable {
-    case new([Category], ((FunFact) -> Void)?)
+enum MoviesSheet: Identifiable {
+    case new([Category], ((Movie) -> Void)?)
     
     var id: Int {
         switch self {
@@ -22,7 +22,7 @@ enum FactSheet: Identifiable {
     }
 }
 
-enum FactFullScreenCover: Identifiable {
+enum MoviesFullScreenCover: Identifiable {
     case seeMore(SeeMoreConfig)
     case categories(CategoriesConfig)
     case alert(AlertConfig)

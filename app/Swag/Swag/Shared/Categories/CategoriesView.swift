@@ -21,7 +21,7 @@ struct CategoriesView: View {
         }
         .ignoresSafeArea()
     }
-    
+        
     func categoriesView(height: CGFloat) -> some View {
         VStack() {
             RoundedRectangle(cornerRadius: 8)
@@ -31,23 +31,7 @@ struct CategoriesView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(AppTypography.title(size: 18))
                 .padding(.top)
-            ScrollView {
-                FlowLayout {
-                    ForEach(viewModel.categories) { cat in
-                        Text(cat.name)
-                            .font(AppTypography.note(size: 18))
-                            .padding()
-                            .background(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .fill(viewModel.isSelected(cat) ? Color.accentColor : Color.darkPurple.opacity(0.6))
-                            )
-                            .padding(2)
-                            .onTapGesture {
-                                viewModel.selectCategory(cat)
-                            }
-                    }
-                }
-            }
+            categoriesGrid()
             HStack {
                 Button {
                     viewModel.didClearCategory?()
@@ -82,6 +66,26 @@ struct CategoriesView: View {
         )
         .padding()
         .padding(.bottom)
+    }
+    
+    func categoriesGrid() -> some View {
+        ScrollView {
+            FlowLayout {
+                ForEach(viewModel.categories, id: \.id) { cat in
+                    Text(cat.name)
+                        .font(AppTypography.note(size: 18))
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill(viewModel.isSelected(cat) ? Color.accentColor : Color.darkPurple.opacity(0.6))
+                        )
+                        .padding(2)
+                        .onTapGesture {
+                            viewModel.selectCategory(cat)
+                        }
+                }
+            }
+        }
     }
 }
 

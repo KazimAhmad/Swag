@@ -14,6 +14,7 @@ enum Images {
     static let insta = "insta"
     static let youtube = "youtube"
     static let patreon = "patreon"
+    static let newspaper = "newspaper"
 
     //System images
     //Onboarding
@@ -52,4 +53,6 @@ enum Images {
 
     static let questionMark = "questionmark.circle"
     static let lightBulb = "lightbulb.circle"
+    
+    static let book = "book.pages"
 }

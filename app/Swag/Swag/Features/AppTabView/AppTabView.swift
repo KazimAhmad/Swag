@@ -75,9 +75,8 @@ struct AppTabView: View {
             }
             .tag(AppTab.videos)
         case .recommendations:
-            NavigationStack {
-                Text(tab.title)
-            }
+            RecommendationView(viewModel: RecommendationViewModel())
+                .tag(AppTab.recommendations)
             .tag(AppTab.recommendations)
         case .funFacts:
             funFactCoordinator.coordinatorView
