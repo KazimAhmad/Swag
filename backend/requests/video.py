@@ -58,3 +58,25 @@ def videos_create():
         return jsonify({"error": str(e)}), 400
     
     return jsonify({"message": "video created"}), 201
+
+@app.route("/videos/delete", methods = ["DELETE"])
+def videos_delete():
+    data = request.json.get()
+    ids = data.get("ids", [])
+
+    if not ids:
+        return jsonify({"error": "No IDs provided"}), 400
+
+    vidoes_to_delete = Video.query.filter(Video.id.in_(ids)).all()
+
+    if not vidoes_to_delete:
+        return jsonify({"error": "No videos found"}), 400
+    
+    for vid in vidoes_to_delete:
+        db.session.delete(vid)
+
+    db.session.commit()
+
+    return jsonify({
+        "deleted_ids": [t.id for t in vidoes_to_delete]
+    }), 200

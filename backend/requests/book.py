@@ -14,7 +14,7 @@ def books():
 
     books = book_query.order_by(
         Book.title.desc()
-    ).paginate(per_page = 6, page=page_number).all()
+    ).paginate(per_page = 6, page=page_number)
 
     json_books = list(map(lambda book: book.to_json(), books.items))
     
@@ -70,11 +70,8 @@ def books_create():
             }
         ), 400
     
-    return jsonify(
-        {
-            "message": "book created successfully"
-        }
-    ), 200
+    new_book_id = new_book.id
+    return jsonify({"id": new_book_id}), 200
 
 @app.route("/books", methods = ["DELETE"])
 def delete_book():

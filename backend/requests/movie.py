@@ -28,7 +28,7 @@ def movies_create():
     data = request.get_json()
 
     new_title = data.get("title")
-    new_review = data.get("review")
+    new_review = data.get("my_review")
     new_movie_category = data.get("category")
     new_rating = data.get("rating")
     new_imdb_link = data.get("imdb_link")
@@ -68,11 +68,8 @@ def movies_create():
             }
         ), 400
     
-    return jsonify(
-        {
-            "message": "movie created successfully"
-        }
-    ), 200
+    new_movie_id = new_movie.id
+    return jsonify({"id": new_movie_id}), 200
 
 @app.route("/movies", methods = ["DELETE"])
 def delete_movie():
