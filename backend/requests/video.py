@@ -31,7 +31,8 @@ def videos_create():
     new_title = request.json.get("title")
     new_description = request.json.get("description")
     new_link = request.json.get("link")
-
+    new_date = request.json.get("date")
+    dt = datetime.strptime(new_date, "%Y-%m-%d %H:%M:%S")
     
     if not new_title:
         return jsonify(
@@ -46,11 +47,11 @@ def videos_create():
                 "error": "A valid link is required"
             }
         ), 400
-    
+        
     new_video = Video(title = new_title,
                     description = new_description,
                     link = new_link,
-                    date = datetime.now(datetime.timezone.utc))    
+                    date = dt)    
     try:
         db.session.add(new_video)
         db.session.commit()
@@ -58,7 +59,8 @@ def videos_create():
     except Exception as e:
         return jsonify({"error": str(e)}), 400
     
-    return jsonify({"message": "video created"}), 201
+    new_video_id = new_video.id
+    return jsonify({"id": new_video_id}), 200
 
 @app.route("/videos", methods = ["DELETE"])
 def videos_delete():
