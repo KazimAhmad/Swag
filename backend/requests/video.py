@@ -14,13 +14,14 @@ def videos():
     page_number = request.args.get("page", default=1, type=int)
     videos = Video.query.order_by(
         Video.date.desc()
-    ).paginate(per_page=10, page=page_number).limit(3).all()
+    ).paginate(per_page=10, page=page_number)
 
     json_videos = list(map(lambda video: video.to_json(), videos))
     
     return jsonify(
         {
-            "videos": json_videos
+            "total": videos.total,
+            "items": json_videos
         }
     )
 
@@ -59,9 +60,9 @@ def videos_create():
     
     return jsonify({"message": "video created"}), 201
 
-@app.route("/videos/delete", methods = ["DELETE"])
+@app.route("/videos", methods = ["DELETE"])
 def videos_delete():
-    data = request.json.get()
+    data = request.get_json()
     ids = data.get("ids", [])
 
     if not ids:
