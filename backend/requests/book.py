@@ -29,12 +29,12 @@ def books():
 def books_create():
     data = request.get_json()
 
-    new_title = data("title")
-    new_review = data("review")
-    new_book_category = data("category")
-    new_rating = data("rating")
-    new_link = data("link")
-    new_release_year = data("release_year")
+    new_title = data.get("title")
+    new_review = data.get("review")
+    new_book_category = data.get("category")
+    new_rating = data.get("rating")
+    new_link = data.get("link")
+    new_release_year = data.get("release_year")
 
     new_book_category_name = new_book_category["name"]
     book_category = BookCategory.query.filter_by(name = new_book_category_name).first()
@@ -56,7 +56,7 @@ def books_create():
                     review = new_review,
                     category = book_category,
                     rating = new_rating,
-                    imdb_link = new_link,
+                    link = new_link,
                     release_year = new_release_year)
     
     try:

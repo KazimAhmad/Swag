@@ -7,7 +7,7 @@ class Book(db.Model):
     title = db.Column(db.String(64), nullable = False)
     review = db.Column(db.String(256), nullable = False)
     category = db.Column(db.String(16), nullable = False)
-    rating = db.Column(db.Integer, nullable = False)
+    rating = Column(Float, nullable = False)
     link = db.Column(db.String(64), nullable = True)
     release_year = db.Column(db.String(8), nullable = False)
 
@@ -24,7 +24,7 @@ class Book(db.Model):
             "review": self.review,
             "category": self.category,
             "rating": self.rating,
-            "imdb_link": self.imdb_link,
+            "link": self.link,
             "release_year": self.release_year,
             "category": self.category.to_json()
         }

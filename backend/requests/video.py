@@ -14,7 +14,7 @@ def videos():
     page_number = request.args.get("page", default=1, type=int)
     videos = Video.query.order_by(
         Video.date.desc()
-    ).paginate(per_page=10, page=page_number)
+    ).paginate(per_page=5, page=page_number)
 
     json_videos = list(map(lambda video: video.to_json(), videos))
     
