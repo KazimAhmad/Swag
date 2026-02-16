@@ -23,6 +23,7 @@ struct FactView: View {
                 .font(AppTypography.body(size: 18))
             Text(fact.description)
                 .font(AppTypography.note(size: 18))
+                .lineLimit(2)
             HStack {
                 if edge == .leading {
                     Spacer()

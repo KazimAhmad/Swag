@@ -15,4 +15,7 @@ protocol HomeViewModelProtocol: ObservableObject {
     func seeMore(of thought: Thought)
     func getThoughtOfDay()
     var thoughtOfTheDay : Thought? { get set }
+    var cards: Cards { get set }
+    var viewState: ViewState { get set }
+    func getCards()
 }

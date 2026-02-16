@@ -35,7 +35,7 @@ class BooksCoordinator: CoordinatorProtocol {
     
     func build(sheet: BooksSheet) -> some View {
         switch sheet {
-        case .new(let categories, let callback):
+        case .new:
             Text("new")
         }
     }

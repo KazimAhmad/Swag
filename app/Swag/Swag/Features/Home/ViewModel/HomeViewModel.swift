@@ -13,6 +13,9 @@ class HomeViewModel: HomeViewModelProtocol {
 
     @Published var thoughtOfTheDay: Thought?
     
+    @Published var cards: Cards = []
+    @Published var viewState: ViewState = .loading
+    
     init(coordinator: HomeCoordinator?,
          thoughtRepo: ThoughtRepositoryProtocol) {
         self.coordinator = coordinator
@@ -31,12 +34,28 @@ class HomeViewModel: HomeViewModelProtocol {
         coordinator?.push(.thoughtList)
     }
     
+    @MainActor
     func getThoughtOfDay() {
         Task {
             do {
                 thoughtOfTheDay = try await thoughtRepo.oftheday()
             } catch {
                 print(error)
+            }
+        }
+    }
+    
+    @MainActor
+    func getCards() {
+        if cards.count > 0 { return }
+        let repository: CardRepository = CardRepository()
+        Task {
+            do {
+                cards = try await repository.fetch()
+                viewState = .info
+            } catch {
+                print(error)
+                viewState = .empty
             }
         }
     }

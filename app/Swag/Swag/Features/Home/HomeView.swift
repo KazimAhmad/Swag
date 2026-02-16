@@ -22,10 +22,12 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
                         viewModel.showAbout()
                     }
                 thoughtOfTheDayView()
+                projectsView()
             }
         }
         .task {
             viewModel.getThoughtOfDay()
+            viewModel.getCards()
         }
         .ignoresSafeArea(edges: .all)
     }
@@ -104,6 +106,37 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
             }
             .foregroundStyle(Color.purple)
         }
+    }
+    
+    private func projectsView() -> some View {
+        GeometryReader { geometry in
+        VStack {
+                Section {
+                    switch viewModel.viewState {
+                    case .loading:
+                        LoadingView()
+                    case .info:
+                        ScrollView(.horizontal) {
+                            HStack {
+                                ForEach(viewModel.cards, id: \.id) { card in
+                                    CardView(card: card)
+                                        .frame(width: geometry.size.width)
+                                }
+                            }
+                        }
+                    default:
+                        Text("")
+                    }
+                } header: {
+                    HStack {
+                        Text("Projects")
+                            .font(AppTypography.title(size: 18))
+                        Spacer()
+                    }
+                }
+            }
+        }
+        .padding()
     }
 }
 

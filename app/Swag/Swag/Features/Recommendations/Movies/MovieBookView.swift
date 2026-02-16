@@ -1,5 +1,5 @@
 //
-//  MovieView.swift
+//  MovieBookView.swift
 //  SwagAdmin
 //
 //  Created by Kazim Ahmad on 03/02/2026.
@@ -15,6 +15,7 @@ struct MovieBook {
     var releaseYear: String
     var link: String
     var category: Category
+    var type: RecommendationTab
     
     init(from movie: Movie) {
         id = movie.id
@@ -24,16 +25,18 @@ struct MovieBook {
         releaseYear = movie.releaseYear
         link = movie.imdbLink
         category = movie.category
+        type = .movies
     }
     
     init(from book: Book) {
         id = book.id
         title = book.title
         myReview = book.review
-        rating = 0
+        rating = book.rating
         releaseYear = book.releaseYear
         link = book.link
         category = book.category
+        type = .books
     }
 }
 
@@ -91,12 +94,15 @@ struct MovieBookView: View {
             )
         }
         .lineLimit(2)
-        .padding()
+        .padding(item.type == .books ? 16 : 32)
         .background(
-            Image(Images.newspaper)
+            Image(item.type == .movies ? Images.film : Images.newspaper)
                 .resizable()
+                .frame(maxHeight: 400)
                 .overlay(content: {
-                    Color.brown.opacity(0.6)
+                    if item.type == .books {
+                        Color.brown.opacity(0.5)
+                    }
                 })
                 .clipShape(RoundedRectangle(cornerRadius: 20))
         )

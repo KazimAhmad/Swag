@@ -21,7 +21,7 @@ enum AppTab: String, Hashable, CaseIterable {
         case .videos:
             return "Videos"
         case .recommendations:
-            return "Recommendations"
+            return "Recs"
         case .funFacts:
             return "Fun Facts"
         case .settings:
@@ -49,6 +49,8 @@ struct AppTabView: View {
     @State private var selectedTab: AppTab = .home
     var homeCoordinator = HomeCoordinator()
     var funFactCoordinator = FactCoordinator()
+    var videosCoordinator = VideosCoordinator()
+    var settingsCoordinator = SettingsCoordinator()
 
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -70,10 +72,8 @@ struct AppTabView: View {
             homeCoordinator.coordinatorView
                 .tag(AppTab.home)
         case .videos:
-            NavigationStack {
-                Text(tab.title)
-            }
-            .tag(AppTab.videos)
+            videosCoordinator.coordinatorView
+                .tag(AppTab.videos)
         case .recommendations:
             RecommendationView(viewModel: RecommendationViewModel())
                 .tag(AppTab.recommendations)
@@ -82,10 +82,8 @@ struct AppTabView: View {
             funFactCoordinator.coordinatorView
                 .tag(AppTab.funFacts)
         case .settings:
-            NavigationStack {
-                Text(tab.title)
-            }
-            .tag(AppTab.settings)
+            settingsCoordinator.coordinatorView
+                .tag(AppTab.settings)
         }
     }
 }

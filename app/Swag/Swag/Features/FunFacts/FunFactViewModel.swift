@@ -68,16 +68,10 @@ class FunFactViewModel: ObservableObject {
                 self?.selectedCategory = newCategory
                 self?.categories.insert(newCategory, at: 0)
             }
-            self?.viewState = .loading
-            self?.page = 0
-            self?.funFactObj = nil
-            self?.getFacts()
+            self?.resetData()
         }, didClearCategory: { [weak self] in
             self?.selectedCategory = nil
-            self?.viewState = .loading
-            self?.page = 0
-            self?.funFactObj = nil
-            self?.getFacts()
+            self?.resetData()
         }, didDeleteCategory: { [weak self] cat in
             let catToDel: Category = .init(id: cat?.id ?? 0, name: cat?.name ?? "")
             self?.categories.removeAll(where: { $0.id == catToDel.id })
@@ -89,6 +83,13 @@ class FunFactViewModel: ObservableObject {
         getFacts()
     }
     
+    func resetData() {
+        viewState = .loading
+        page = 0
+        funFactObj = nil
+        getFacts()
+    }
+
     func getCategories() {
         Task {
             do {

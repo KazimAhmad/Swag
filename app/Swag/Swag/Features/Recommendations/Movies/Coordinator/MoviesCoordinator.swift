@@ -35,7 +35,7 @@ class MoviesCoordinator: CoordinatorProtocol {
     
     func build(sheet: MoviesSheet) -> some View {
         switch sheet {
-        case .new(let categories, let callback):
+        case .new:
             Text("new")
         }
     }

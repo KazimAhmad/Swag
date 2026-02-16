@@ -94,6 +94,10 @@ struct FunFactView: View {
                                 RoundedRectangle(cornerRadius: 20)
                                     .fill(viewModel.isSelectedCategory(category) ? Color.accentColor : Color.purple)
                             }
+                            .onTapGesture {
+                                viewModel.selectedCategory = category
+                                viewModel.resetData()
+                            }
                     }
                 }
             }
