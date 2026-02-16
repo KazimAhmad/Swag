@@ -13,16 +13,21 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
         _viewModel = StateObject(wrappedValue: viewModel)
     }
     var body: some View {
-        ScrollView {
-            VStack {
-                headerView()
-                    .padding(.bottom, 24)
-                infoView()
-                    .onTapGesture {
-                        viewModel.showAbout()
-                    }
-                thoughtOfTheDayView()
-                projectsView()
+        GeometryReader { geometry in
+            ScrollView {
+                VStack {
+                    headerView()
+                        .padding(.bottom, 24)
+                    infoView()
+                        .onTapGesture {
+                            viewModel.showAbout()
+                        }
+                    thoughtOfTheDayView()
+                    projectsView(width: geometry.size.width)
+                    Rectangle()
+                        .fill(Color.clear)
+                        .frame(height: 100)
+                }
             }
         }
         .task {
@@ -108,31 +113,29 @@ struct HomeView<ViewModel: HomeViewModelProtocol>: View {
         }
     }
     
-    private func projectsView() -> some View {
-        GeometryReader { geometry in
+    private func projectsView(width: CGFloat) -> some View {
         VStack {
-                Section {
-                    switch viewModel.viewState {
-                    case .loading:
-                        LoadingView()
-                    case .info:
-                        ScrollView(.horizontal) {
-                            HStack {
-                                ForEach(viewModel.cards, id: \.id) { card in
-                                    CardView(card: card)
-                                        .frame(width: geometry.size.width)
-                                }
+            Section {
+                switch viewModel.viewState {
+                case .loading:
+                    LoadingView()
+                case .info:
+                    ScrollView(.horizontal) {
+                        HStack(spacing: 0) {
+                            ForEach(viewModel.cards, id: \.id) { card in
+                                CardView(card: card)
+                                    .frame(width: width - 64)
                             }
                         }
-                    default:
-                        Text("")
                     }
-                } header: {
-                    HStack {
-                        Text("Projects")
-                            .font(AppTypography.title(size: 18))
-                        Spacer()
-                    }
+                default:
+                    Text("")
+                }
+            } header: {
+                HStack {
+                    Text("Projects")
+                        .font(AppTypography.title(size: 18))
+                    Spacer()
                 }
             }
         }
