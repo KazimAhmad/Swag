@@ -1,0 +1,30 @@
+//
+//  SettingsRoute.swift
+//  SwagAdmin
+//
+//  Created by Kazim Ahmad on 30/01/2026.
+//
+
+import Foundation
+
+enum SettingsRoute: Hashable {
+    case settings
+    case draft(SettingsSection)
+}
+
+enum SettingsSheet: Identifiable {
+    var id: String {
+        switch self {
+        }
+    }
+}
+
+enum SettingsFullScreen: Identifiable {
+    case alert(AlertConfig)
+    var id: String {
+        switch self {
+        case .alert:
+            return "alert"
+        }
+    }
+}
