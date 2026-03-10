@@ -2,9 +2,11 @@ from flask import jsonify, request, session, send_from_directory
 import sys
 sys.path.append("../config/config.py")
 sys.path.append("../models/user.py")
+sys.path.append("../requests/token.py")
 
 from config.config import db, app, bcrypt
 from models.user import User
+from requests import token
 
 #this is a decorater which goes above the function that we are gonna write
 @app.route("/users", methods = ["GET"])
@@ -62,7 +64,7 @@ def create_user():
     hashed_password = bcrypt.generate_password_hash(new_password).decode('utf-8')
     new_user = User(user_name = new_user_name,
                     email = new_email,
-                    password = new_password)
+                    password = hashed_password)
     
     try:
         db.session.add(new_user)
@@ -72,3 +74,36 @@ def create_user():
         return jsonify({"message": str(e)}), 400
     
     return jsonify({"message": "User Created"}), 201
+
+
+@app.route("/login", methods=["POST"])
+def login():
+    data = request.get_json()
+    if not data or not data.get("username") or not data.get("password"):
+        return jsonify(
+            { "message": "Missing credentials" }
+            ), 400
+    username = data["username"]
+    password = data["password"]
+
+    user = User.query.filter_by(
+        user_name = username
+    ).first()
+
+    print(user)
+    if not user:
+        return jsonify(
+            { "message": "No user found with this username" }
+        ), 404
+    
+    saved_pass = user.password
+    print(saved_pass)
+
+    if not bcrypt.check_password_hash(saved_pass, password):
+        return jsonify(
+            { "message": "wrong password" }
+        ), 400
+    
+    new_token = token.generate_token(username)
+
+    return jsonify({"token": new_token}), 200
