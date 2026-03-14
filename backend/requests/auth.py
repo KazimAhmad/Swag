@@ -104,6 +104,10 @@ def login():
             { "message": "wrong password" }
         ), 400
     
-    new_token = token.generate_token(username)
+    new_token, refresh_token = token.generate_tokens(username)
 
-    return jsonify({"token": new_token}), 200
+    return jsonify({
+        "token": new_token,
+        "refresh_token": refresh_token,
+        "user": user.to_json()
+        }), 200

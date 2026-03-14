@@ -5,15 +5,49 @@ from functools import wraps
 from datetime import datetime
 import jwt
 
-def generate_token(username):
+def generate_tokens(username):
     payload = {
         "sub": username,  # subject (who the token is for)
         "exp": datetime.datetime.utcnow() + datetime.timedelta(hours=1),
-        "iat": datetime.datetime.utcnow()
+        "type": "access"
+    }
+
+    refresh_payload = {
+        "sub": username,
+        "exp": datetime.datetime.utcnow() + datetime.timedelta(days=7),
+        "type": "refresh"
     }
 
     token = jwt.encode(payload, app.config["SECRET_KEY"], algorithm="HS256")
-    return token
+    refresh_token = jwt.encode(refresh_payload, app.config["SECRET_KEY"], algorithm="HS256")
+
+    return token, refresh_token
+
+@app.route("/refresh", methods=["POST"])
+def refresh():
+    data = request.get_json()
+    refresh_token = data.get("refresh_token")
+
+    try:
+        payload = jwt.decode(refresh_token, app.config["SECRET_KEY"], algorithms=["HS256"])
+
+        if payload["type"] != "refresh":
+            return {"message": "Invalid token type"}, 401
+
+        new_access = jwt.encode(
+            {
+                "sub": payload["sub"],
+                "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=15),
+                "type": "access"
+            },
+            app.config["SECRET_KEY"],
+            algorithm="HS256"
+        )
+
+        return {"access_token": new_access}
+
+    except jwt.ExpiredSignatureError:
+        return {"message": "Refresh token expired"}, 401
 
 def token_required(f):
     @wraps(f)
